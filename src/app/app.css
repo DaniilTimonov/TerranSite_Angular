@@ -169,7 +169,16 @@
 .content { flex:1; display:flex; justify-content:center; align-items:flex-start; padding:28px; }
 .content-card { width:100%; max-width:980px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:22px; border-radius:10px; box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02); }
 
-h2 { color:#ffe6b8; margin-top:0; }
+h2 {
+  color: #ffe6b8;
+  margin-top: 0;
+  text-shadow:
+    0 0 20px #ff6b1b,  /* внутреннее яркое свечение */
+    0 0 40px rgba(255, 107, 27, 0.6),  /* среднее свечение */
+    0 0 80px rgba(255, 59, 0, 0.4),  /* внешний ореол */
+    0 2px 4px rgba(0,0,0,0.8);  /* тень для читаемости */
+  transform: translateZ(0); /* включаем GPU-ускорение для более плавного рендеринга */
+}
 
 /* Typography usage: use EuropeExt with different weights for different levels */
 h1, h2, h3 {
@@ -192,6 +201,97 @@ h1, h2, h3 {
 
 /* body / regular text uses normal weight */
 body, p, li, a, .muted-link { font-weight: 400; }
+
+/* Starcraft-like heading glow on hover/focus */
+@keyframes terran-glow-pulse {
+	0% {
+		text-shadow: 0 0 6px rgba(255,154,46,0.65), 0 0 14px rgba(255,138,36,0.28);
+	}
+	100% {
+		text-shadow: 0 0 16px rgba(255,178,70,0.98), 0 0 36px rgba(255,138,36,0.55), 0 6px 18px rgba(0,0,0,0.7);
+	}
+}
+
+/* make headings transition smoothly */
+h1, h2, h3, .site-title {
+	transition: color 180ms ease, transform 160ms ease, text-shadow 200ms ease;
+}
+
+/* Strong explicit selectors so hover works inside panels and header */
+.content-card h1, .content-card h2, .content-card h3,
+.about-card h1, .about-card h2, .about-card h3,
+.app-header .site-title,
+h1, h2, h3 {
+	transition: color 180ms ease, transform 160ms ease, text-shadow 200ms ease;
+}
+
+.content-card h1:hover, .content-card h2:hover, .content-card h3:hover,
+.about-card h1:hover, .about-card h2:hover, .about-card h3:hover,
+.app-header .site-title:hover,
+h1:hover, h2:hover, h3:hover,
+.content-card h1:focus, .content-card h2:focus, .content-card h3:focus,
+.app-header .site-title:focus,
+h1:focus, h2:focus, h3:focus {
+	color: #fffef5;
+	transform: translateY(-3px);
+	/* strong layered orange glow matching terran buttons */
+	text-shadow: 0 0 18px var(--accent), 0 0 36px rgba(255,138,36,0.6), 0 8px 24px rgba(0,0,0,0.72);
+	outline: none;
+	/* single soft pulse on hover for visibility */
+	animation: terran-glow-pulse 1.2s ease-in-out 1;
+}
+
+/* accessible focus-visible state */
+h1:focus-visible, h2:focus-visible, h3:focus-visible {
+	box-shadow: 0 0 0 6px rgba(255,160,60,0.08);
+}
+
+/* About page styles */
+.about-content { display:block; }
+.about-card {
+	background: linear-gradient(180deg, rgba(20,20,22,0.6), rgba(12,12,13,0.85));
+	border: 1px solid rgba(255,200,120,0.06);
+	padding: 18px 20px;
+	border-radius: 10px;
+	box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+	margin-top: 12px;
+}
+
+.about-lead {
+	color: #ffe9c8;
+	font-size: 1.03rem;
+	line-height: 1.6;
+	margin: 0 0 12px 0;
+	font-family: 'EuropeExt', 'Orbitron', sans-serif;
+	font-weight: 500;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+}
+
+.about-body {
+	color: rgba(255,230,200,0.92);
+	font-size: 0.95rem;
+	line-height: 1.55;
+	margin: 0;
+	font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+/* small decorative left border to feel like UI panel */
+.about-card::before{
+	content: '';
+	display:block;
+	position:relative;
+	width:6px;
+	height:100%;
+	background: linear-gradient(180deg,#ffb96a,#ff6f2b);
+	border-radius: 4px;
+	float:left;
+	margin-right:12px;
+}
+
+@media (max-width:520px){
+	.about-card{ padding:14px; }
+	.about-lead{ font-size:1rem; }
+}
 
 /* ITEM IMAGE: always centered horizontally and vertically inside its component area */
 item-info {
