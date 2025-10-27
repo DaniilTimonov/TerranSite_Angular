@@ -1,0 +1,284 @@
+/* Стили для навигационных ссылок - кнопок в стиле терранов (StarCraft II)
+	 - Используем тёплую металлическую палитру: оранжево-бронзовые градиенты
+	 - Добавляем объём (inset/outer shadows), чёткие границы и подсветку при активном состоянии
+*/
+
+.terran-nav {
+	display: flex;
+	gap: 12px;
+	padding: 16px;
+	align-items: center;
+	/* take available space in header and allow buttons to flex/shrink so they never overflow */
+	flex: 1 1 auto;
+	box-sizing: border-box;
+}
+
+/* Hamburger button (hidden on desktop, visible on small screens) */
+.hamburger {
+	display: none;
+	width: 52px;
+	height: 44px;
+	border: 1px solid rgba(255,170,80,0.12);
+	border-radius: 10px;
+	background: linear-gradient(180deg, #2f2a26 0%, #141212 100%);
+	padding: 8px;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	box-shadow: 0 8px 18px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+	transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 180ms ease, background 180ms ease;
+	position: relative;
+	overflow: visible;
+}
+.hamburger:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(255,160,60,0.14); }
+
+.hamburger span{
+	display: block;
+	height: 4px;
+	width: 26px;
+	margin: 4px 0;
+	border-radius: 3px;
+	background: linear-gradient(90deg, #ffd07a 0%, #ff9a2e 100%);
+	box-shadow: 0 6px 12px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+	transition: transform 300ms cubic-bezier(.2,.9,.2,1), opacity 220ms ease, background 220ms ease;
+	transform-origin: center;
+	position: relative;
+}
+
+/* Subtle glow behind the hamburger */
+.hamburger::before{
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	width: 46px;
+	height: 36px;
+	border-radius: 8px;
+	background: radial-gradient(closest-side, rgba(255,160,60,0.06), transparent 60%);
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 220ms ease;
+}
+
+.hamburger:hover::before{ opacity: 1; }
+
+.hamburger.is-open {
+	transform: scale(0.98) rotate(0.01deg);
+	background: linear-gradient(180deg, #3b332f 0%, #221913 100%);
+	box-shadow: 0 12px 28px rgba(255,140,40,0.08), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.hamburger.is-open span:nth-child(1){ transform: translateY(9px) rotate(45deg); background: linear-gradient(90deg,#fff0c9,#ffdc9a); }
+.hamburger.is-open span:nth-child(2){ opacity:0; transform: scaleX(0); }
+.hamburger.is-open span:nth-child(3){ transform: translateY(-9px) rotate(-45deg); background: linear-gradient(90deg,#fff0c9,#ffdc9a); }
+
+/* add a small indicator LED */
+.hamburger .led {
+	position: absolute;
+	right: -6px;
+	top: -6px;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: linear-gradient(180deg,#ffcf7a,#ff7a2e);
+	box-shadow: 0 6px 12px rgba(255,140,40,0.12), 0 0 8px rgba(255,160,60,0.12) inset;
+	transform: scale(0.9);
+}
+
+/* when menu opens, give nav a slight metallic panel feel */
+.terran-nav.open {
+	box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 18px rgba(255,150,50,0.06) inset;
+	background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+	border-radius: 8px;
+	padding: 8px 10px 12px 10px;
+}
+
+.terran-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 14px;
+	color: #fff;
+	text-decoration: none;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.6px;
+	border-radius: 8px;
+	background: linear-gradient(180deg, #f4a45a 0%, #c86b1a 60%, #8a4b18 100%);
+	border: 2px solid rgba(0,0,0,0.35);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 6px 12px rgba(0,0,0,0.35);
+	/* flex so buttons share available width and never cause overflow */
+	flex: 1 1 0;
+	min-width: 0; /* allow shrinking below content size */
+	box-sizing: border-box;
+	transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
+}
+
+.terran-btn:hover {
+	transform: translateY(-2px);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 10px 18px rgba(0,0,0,0.45);
+	filter: brightness(1.03);
+}
+
+.terran-btn:active {
+	transform: translateY(0);
+	box-shadow: inset 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.terran-btn:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(200,120,40,0.28), 0 8px 18px rgba(0,0,0,0.35);
+}
+
+/* активный маршрут — более яркая подсветка */
+.terran-btn.active {
+	background: linear-gradient(180deg, #ffd07a 0%, #ff9a2e 60%, #c86b1a 100%);
+	box-shadow: 0 0 12px rgba(255,160,60,0.32), inset 0 1px 0 rgba(255,255,255,0.2);
+	transform: translateY(-2px);
+}
+
+/* небольшой адаптивный поведение */
+@media (max-width: 520px) {
+	.terran-nav { gap: 8px; padding: 10px; }
+	.terran-btn { padding: 8px 12px; font-size: 13px; }
+}
+
+/* Layout: header / main / footer */
+.app-shell {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background: radial-gradient(1200px 600px at 10% 10%, rgba(255,170,90,0.04), transparent 10%), linear-gradient(180deg,#0b0b0d 0%, #121214 40%);
+	color: #efefef;
+}
+
+.app-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 18px 22px;
+	border-bottom: 1px solid rgba(255,255,255,0.04);
+	background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12));
+}
+
+.header-left { display:flex; align-items:center; gap:12px; }
+.logo { width:48px; height:48px; object-fit:contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6)); }
+.site-title { margin:0; font-size:18px; font-weight:800; color:#ffdba0; text-shadow:0 1px 0 rgba(0,0,0,0.6); }
+
+.content { flex:1; display:flex; justify-content:center; align-items:flex-start; padding:28px; }
+.content-card { width:100%; max-width:980px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:22px; border-radius:10px; box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02); }
+
+h2 { color:#ffe6b8; margin-top:0; }
+
+/* Typography usage: use EuropeExt with different weights for different levels */
+h1, h2, h3 {
+	font-family: 'EuropeExt', 'Orbitron', sans-serif;
+	font-weight: 700;
+	letter-spacing: 0.6px;
+}
+
+.site-title {
+	font-family: 'EuropeExt', 'Orbitron', sans-serif;
+	font-weight: 700;
+	letter-spacing: 0.8px;
+	color: #ffdba0;
+}
+
+.terran-btn {
+	font-family: 'EuropeExt', 'Orbitron', sans-serif;
+	font-weight: 600; /* slightly less heavy than headings for visual hierarchy */
+}
+
+/* body / regular text uses normal weight */
+body, p, li, a, .muted-link { font-weight: 400; }
+
+/* ITEM IMAGE: always centered horizontally and vertically inside its component area */
+item-info {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+/* class on the image element in item.component.ts */
+.item-image {
+	display: block;          /* treat as block for margin auto centering */
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 100%;
+	height: auto;
+	/* allow image to scale but not to exceed viewport width */
+	width: auto;
+}
+
+/* on large viewports make sure the content-card centers its children vertically when it contains the item component */
+.content-card > item-info {
+	min-height: 320px; /* provides some vertical space so vertical centering is visible */
+}
+
+@media (max-width: 520px) {
+	/* keep image centered and responsive on small screens */
+	.item-image { max-width: 100%; width: 100%; height: auto; }
+	.content-card > item-info { min-height: 200px; }
+}
+
+.app-footer { padding:12px 20px; border-top:1px solid rgba(255,255,255,0.03); display:flex; justify-content:space-between; align-items:center; font-size:13px; color:rgba(255,255,255,0.65); }
+.footer-links a { color: rgba(255,255,255,0.75); text-decoration: none; margin-left:12px; }
+.muted-link { opacity:0.85; }
+
+/* small screens layout adjustments */
+@media (max-width: 760px) {
+	.app-header { flex-direction: column; gap:12px; align-items:flex-start; }
+	.terran-nav { width:100%; justify-content:flex-start; }
+	.content { padding:16px; }
+	.content-card { padding:14px; }
+}
+
+/* Mobile-specific: narrow phones */
+@media (max-width: 480px) {
+	.app-header { padding:12px 14px; }
+	.header-left { gap:8px; }
+	.logo { width:40px; height:40px; }
+	.site-title { font-size:15px; }
+
+	/* Stack navigation and make buttons touch-friendly */
+	.hamburger { display: inline-flex; }
+
+	.terran-nav {
+		flex-direction: column;
+		gap: 10px;
+		width: 100%;
+		align-items: stretch;
+		padding: 6px 0 0 0;
+		/* collapsed by default on very small screens */
+		max-height: 0;
+		opacity: 0;
+		overflow: hidden;
+		transition: max-height 320ms cubic-bezier(.2,.9,.2,1), opacity 240ms ease;
+	}
+
+	.terran-nav.open {
+		max-height: 540px; /* large enough to show links */
+		opacity: 1;
+	}
+
+	.terran-btn {
+		width: 100%;
+		display: inline-flex;
+		justify-content: center;
+		padding: 12px 14px;
+		font-size: 15px;
+		border-radius: 10px;
+	}
+
+	/* Make content area tighter on small screens */
+	.content { padding: 12px; }
+	.content-card { padding: 12px; border-radius: 8px; }
+
+	/* Footer stacked and centered */
+	.app-footer { flex-direction: column; gap:8px; align-items:center; text-align:center; padding:12px; }
+
+	/* Ensure images inside content scale nicely */
+	.content-card img, img.logo { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+}

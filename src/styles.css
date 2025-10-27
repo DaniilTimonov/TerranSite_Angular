@@ -1,1 +1,61 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles and base theme for the Terran look */
+:root{
+	--bg-1: #0b0b0d;
+	--accent: #ff9a2e;
+	--muted: rgba(255,255,255,0.7);
+}
+
+html,body { height:100%; margin:0; }
+/*
+	Typography setup
+
+	This project prefers the custom font 'EuropeExt'. Place font files in
+	`src/assets/fonts/` with names matching the src urls below, for example:
+		- src/assets/fonts/EuropeExt-Regular.woff2
+		- src/assets/fonts/EuropeExt-SemiBold.woff2
+		- src/assets/fonts/EuropeExt-Bold.woff2
+
+	If those files are not present, the browser will fall back to Orbitron and system fonts.
+*/
+
+@font-face {
+	font-family: 'EuropeExt';
+	src: url('/assets/fonts/EuropeExt-Regular.woff2') format('woff2'),
+			 url('/assets/fonts/EuropeExt-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'EuropeExt';
+	src: url('/assets/fonts/EuropeExt-SemiBold.woff2') format('woff2'),
+			 url('/assets/fonts/EuropeExt-SemiBold.woff') format('woff');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'EuropeExt';
+	src: url('/assets/fonts/EuropeExt-Bold.woff2') format('woff2'),
+			 url('/assets/fonts/EuropeExt-Bold.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+body{
+	font-family: 'EuropeExt', 'Orbitron', Inter, Arial, Helvetica, sans-serif;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+	background: linear-gradient(180deg, #060607 0%, #0f0f10 60%);
+	color: #eee;
+}
+
+/* default link style reset */
+a { color: var(--accent); }
+
+/* utility container */
+.container{ max-width:1100px; margin:0 auto; padding:0 16px; }
+
