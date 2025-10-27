@@ -34,7 +34,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from "@angular/router";
             </main>
 
             <footer class="app-footer">
-                <div>© Ghost Academy — Терраны · 2025</div>
+                <div>© Ultrashot Academy — Терраны · 2025</div>
                 <div class="footer-links">
                     <a routerLink="/about" class="muted-link">О проекте</a>
                 </div>

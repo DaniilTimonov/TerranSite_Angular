@@ -167,7 +167,7 @@
 .site-title { margin:0; font-size:18px; font-weight:800; color:#ffdba0; text-shadow:0 1px 0 rgba(0,0,0,0.6); }
 
 .content { flex:1; display:flex; justify-content:center; align-items:flex-start; padding:28px; }
-.content-card { width:100%; max-width:980px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:22px; border-radius:10px; box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02); }
+.content-card { width:100%; max-width:100%; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:22px; border-radius:10px; box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02); }
 
 h2 {
   color: #ffe6b8;
