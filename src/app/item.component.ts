@@ -1,11 +1,29 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { Sc2ModalComponent } from "./components/sc2-modal.component";
+import { OverviewComponent } from "./components/overview/overview.component";
+import { BuildsComponent } from "./components/builds/builds.component";
+import { UnitsComponent } from "./components/units/units.component";
+import { MatchupGuideComponent } from "./components/matchup-guide/matchup-guide.component";
+import { ReplayViewerComponent } from "./components/replay-viewer/replay-viewer.component";
+// Add more tool components here as needed
 
 @Component({
     selector: "item-info",
+    standalone: true,
+    imports: [CommonModule, RouterModule, Sc2ModalComponent, OverviewComponent, BuildsComponent, UnitsComponent, MatchupGuideComponent, ReplayViewerComponent],
     template: `
         <div class="item-wrapper">
-
+            <div class="side-block left" role="region" aria-label="Left side block">
+                <div class="side-header">Функции</div>
+                <nav class="side-list" aria-label="Left functions">
+                    <button class="terran-btn side-item" type="button" (click)="openModal('overview')">Обзор</button>
+                    <button class="terran-btn side-item" type="button" (click)="openModal('builds')">Билды</button>
+                    <button class="terran-btn side-item" type="button" (click)="openModal('units')">Юниты</button>
+                </nav>
+            </div>
 
             <div class="item-row">
                 <div class="item-center">
@@ -16,96 +34,64 @@ import { ActivatedRoute } from "@angular/router";
                         [alt]="'Модель ' + idDisplay"
                         loading="lazy"
                     />
+                    <div class="content-container">
+                        <router-outlet></router-outlet>
+                    </div>
                 </div>
             </div>
 
+            <div class="side-block right" role="region" aria-label="Right side block">
+                <div class="side-header">Инструменты</div>
+                <nav class="side-list" aria-label="Right tools">
+                    <button class="terran-btn side-item" type="button" (click)="openModal('matchup-guide')">Гайд по матчапам</button>
+                    <button class="terran-btn side-item" type="button" (click)="openModal('replay-viewer')">Просмотр реплеев</button>
+                    <!-- Add more tool buttons here, e.g. <button ... (click)="openModal('toolX')">Tool X</button> -->
+                </nav>
+            </div>
 
+            <sc2-modal *ngIf="modalOpen" (close)="closeModal()">
+                <ng-container [ngSwitch]="modalType">
+                    <app-overview *ngSwitchCase="'overview'"></app-overview>
+                    <app-builds *ngSwitchCase="'builds'"></app-builds>
+                    <app-units *ngSwitchCase="'units'"></app-units>
+                    <app-matchup-guide *ngSwitchCase="'matchup-guide'"></app-matchup-guide>
+                    <app-replay-viewer *ngSwitchCase="'replay-viewer'"></app-replay-viewer>
+                </ng-container>
+            </sc2-modal>
         </div>
-    `,
-    styles: [
-        `
-            :host { display:block; }
-            :root { --center-width: 680px; --side-width: 160px; }
-
-            .item-wrapper {
-                position: relative;
-                width: 100%;
-                box-sizing: border-box;
-                padding: 12px 20px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .item-row {
-                width: 100%;
-                max-width: var(--center-width);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .item-center {
-                text-align: center;
-                padding: 12px 18px;
-                box-sizing: border-box;
-            }
-
-            .side-block {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                width: var(--side-width);
-                padding: 18px 12px;
-                text-align: center;
-                border-radius: 10px;
-                box-sizing: border-box;
-                pointer-events: auto;
-            }
-
-            .side-block.left {
-                left: calc(50% - (var(--center-width) / 2) - var(--side-width) - 12px);
-            }
-
-            .side-block.right {
-                right: calc(50% - (var(--center-width) / 2) - var(--side-width) - 12px);
-            }
-
-            .item-image { display:block; margin:0 auto; max-width:100%; height:auto; }
-
-            @media (max-width: 920px) {
-                :root { --side-width: 120px; }
-                .side-block.left { left: 6px; }
-                .side-block.right { right: 6px; }
-            }
-
-            @media (max-width: 640px) {
-                .side-block { display:none; }
-            }
-        `
-    ]
+    `
 })
 export class ItemComponent implements OnInit {
-
     id: number | null = null;
     idDisplay = '';
-    // путь к картинке в папке assets
     imageUrl = 'assets/terran.png';
 
-    constructor(private activateRoute: ActivatedRoute) { }
+    modalOpen = false;
+    modalType: string | null = null;
+
+    constructor(
+        private activateRoute: ActivatedRoute,
+        private router: Router
+    ) { }
 
     ngOnInit(): void {
-        // безопасно читаем параметр маршрута и парсим в число
         const rawId = this.activateRoute.snapshot.paramMap.get('id');
         const parsed = rawId ? Number(rawId) : NaN;
         this.id = Number.isFinite(parsed) ? parsed : null;
         this.idDisplay = this.id !== null ? String(this.id) : '';
-
-        // если в будущем захотите загружать разные изображения на основе id,
-        // можно раскомментировать и подставить нужный шаблон имени:
-        // if (this.id !== null) { this.imageUrl = `assets/terran-${this.id}.png`; }
     }
 
-    // Side blocks are non-interactive placeholders for future functionality.
+    navigateTo(route: string): void {
+        this.router.navigate([`item/${this.id}/${route}`]);
+    }
 
+    openModal(type: string) {
+        this.modalType = type;
+        this.modalOpen = true;
+    }
+
+    closeModal() {
+        this.modalOpen = false;
+        this.modalType = null;
+    }
 }

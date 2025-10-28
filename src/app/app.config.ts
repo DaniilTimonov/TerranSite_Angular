@@ -1,19 +1,7 @@
 import { ApplicationConfig } from "@angular/core";
-import { provideRouter, Routes } from "@angular/router";
-
-import {HomeComponent} from "./home.component";
-import {AboutComponent} from "./about.component";
-import {NotFoundComponent} from "./not-found.component";
-import {ItemComponent} from "./item.component";
-
-// определение маршрутов
-const appRoutes: Routes =[
-    { path: "", component: HomeComponent},
-    { path: "about", component: AboutComponent},
-    { path: "item/:id", component: ItemComponent},
-    { path: "**", component: NotFoundComponent}
-];
+import { provideRouter } from "@angular/router";
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(appRoutes)]
+  providers: [provideRouter(routes)]
 };

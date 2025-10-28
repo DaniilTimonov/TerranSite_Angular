@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { CommonModule } from '@angular/common';
 
 @Component({
+    standalone: true,
+    imports: [CommonModule],
     selector: "about-app",
     template: `
         <div class="about-content">
@@ -14,52 +17,6 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
                     </div>
         </div>
     `,
-    styles: [
-        `
-            /* Типографика для эффекта печатной строки */
-            .type {
-                display: inline-block;
-                white-space: pre-wrap; /* сохранять переносы и пробелы */
-                font-family: 'EuropeExt', 'Orbitron', sans-serif;
-                color: #ffe9c8;
-                line-height: 1.55;
-            }
-
-                    /* Курсор: следует за вводимым текстом (solid при вводе, blink по завершении) */
-                    .cursor {
-                        display: inline-block;
-                        width: 10px;
-                        height: 1.1em;
-                        margin-left: 6px;
-                        vertical-align: bottom;
-                        background: linear-gradient(180deg, #ffd07a, #ff7a2e);
-                        box-shadow: 0 4px 10px rgba(255,140,40,0.12), 0 0 6px rgba(255,170,70,0.06) inset;
-                        border-radius: 2px;
-                        /* по умолчанию — статичный (видим и "бежит" вслед за текстом) */
-                        opacity: 1;
-                    }
-
-                    .cursor.solid {
-                        /* при вводе курсор не мигает, остаётся видимым */
-                        animation: none;
-                    }
-
-                    .cursor.blink {
-                        animation: caret-blink 1s steps(2, start) infinite;
-                    }
-
-                    @keyframes caret-blink {
-                        0%, 49% { opacity: 1; }
-                        50%, 100% { opacity: 0; }
-                    }
-
-            /* Немного меньше яркости для основного текста блока */
-            .about-body .type {
-                font-family: Inter, Arial, Helvetica, sans-serif;
-                color: rgba(255,230,200,0.92);
-            }
-        `,
-    ],
 })
 export class AboutComponent implements OnInit, OnDestroy {
     // Полные тексты (источник для печати)
